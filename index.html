@@ -29,9 +29,9 @@
     --gold: #c9a14a;
     --shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 0 0 1px rgba(255,255,255,0.02);
   }
-
+ 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
+ 
   html, body {
     margin: 0;
     padding: 0;
@@ -44,21 +44,21 @@
     min-height: 100vh;
     min-height: 100dvh;
   }
-
+ 
   body {
     background-image:
       radial-gradient(ellipse at 20% 0%, rgba(212,255,58,0.04), transparent 50%),
       radial-gradient(ellipse at 100% 100%, rgba(255,91,58,0.025), transparent 50%);
     padding: max(env(safe-area-inset-top), 16px) 0 calc(80px + env(safe-area-inset-bottom)) 0;
   }
-
+ 
   .grain {
     position: fixed; inset: 0; pointer-events: none; opacity: 0.03; z-index: 1;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
-
+ 
   .app { max-width: 480px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
-
+ 
   /* HEADER */
   header.brand {
     display: flex; align-items: baseline; justify-content: space-between;
@@ -80,7 +80,7 @@
     letter-spacing: 0.15em;
     color: var(--ink-dim);
   }
-
+ 
   /* TABS */
   nav.tabs {
     position: fixed;
@@ -120,7 +120,7 @@
     width: 18px; height: 18px;
     display: flex; align-items: center; justify-content: center;
   }
-
+ 
   /* PAGE TRANSITIONS */
   .page { display: none; animation: fadeUp 0.4s ease; }
   .page.active { display: block; }
@@ -128,7 +128,7 @@
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
   }
-
+ 
   /* TODAY HERO */
   .today-hero {
     display: flex; flex-direction: column; gap: 4px;
@@ -185,10 +185,10 @@
     text-align: right;
   }
   .progress-count span { color: var(--ink-dim); }
-
+ 
   /* HABIT LIST */
   .habit-list { display: flex; flex-direction: column; gap: 10px; }
-
+ 
   .habit {
     background: var(--bg-soft);
     border: 1px solid var(--border);
@@ -218,7 +218,7 @@
     border-color: rgba(212,255,58,0.25);
   }
   .habit.done::before { transform: scaleY(1); }
-
+ 
   .habit-check {
     width: 26px; height: 26px;
     border-radius: 8px;
@@ -233,7 +233,7 @@
   }
   .habit-check svg { opacity: 0; transition: opacity 0.2s; }
   .habit.done .habit-check svg { opacity: 1; }
-
+ 
   .habit-body { flex: 1; min-width: 0; }
   .habit-label {
     font-family: 'Fraunces', serif;
@@ -264,7 +264,7 @@
     gap: 3px;
     flex-shrink: 0;
   }
-
+ 
   /* INPUT HABITS (numeric) */
   .habit-numeric {
     display: flex;
@@ -299,7 +299,7 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
   }
-
+ 
   /* WEEKDAY STRIP */
   .weekday-strip {
     display: grid;
@@ -350,7 +350,7 @@
   }
   .weekday-dot.full { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
   .weekday-dot.partial { background: var(--gold); }
-
+ 
   /* SECTIONS */
   .section-title {
     font-family: 'JetBrains Mono', monospace;
@@ -369,7 +369,7 @@
     height: 1px;
     background: var(--border);
   }
-
+ 
   /* STATS PAGE */
   .stat-grid {
     display: grid;
@@ -409,7 +409,7 @@
     color: var(--ink-dim);
     margin-top: 6px;
   }
-
+ 
   /* COMPARE BAR */
   .compare-row {
     display: flex; align-items: center; gap: 12px;
@@ -455,7 +455,7 @@
     color: var(--ink);
     font-weight: 500;
   }
-
+ 
   /* PERIOD SWITCH */
   .period-switch {
     display: flex;
@@ -483,7 +483,7 @@
     background: var(--bg-elevated);
     color: var(--ink);
   }
-
+ 
   /* PERIOD NAV */
   .period-nav {
     display: flex;
@@ -508,7 +508,7 @@
     font-weight: 400;
     font-style: italic;
   }
-
+ 
   /* HEATMAP */
   .heatmap-wrap {
     background: var(--bg-soft);
@@ -546,7 +546,7 @@
   .heatmap-cell.l3 { background: var(--accent); }
   .heatmap-cell.empty { background: transparent; border: 1px dashed var(--border); }
   .heatmap-cell.weekend { background: var(--bg); border: 1px solid var(--border); }
-
+ 
   /* QUOTE */
   .quote-input-wrap {
     background: linear-gradient(135deg, rgba(201,161,74,0.05), transparent);
@@ -570,7 +570,91 @@
   }
   .quote-input-wrap textarea:focus { outline: none; }
   .quote-input-wrap textarea::placeholder { color: var(--ink-faint); }
-
+ 
+  /* BACKUP BANNER */
+  .backup-banner {
+    background: linear-gradient(135deg, rgba(255,91,58,0.12), rgba(255,91,58,0.04));
+    border: 1px solid rgba(255,91,58,0.3);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .backup-banner.fresh {
+    background: linear-gradient(135deg, rgba(212,255,58,0.06), transparent);
+    border-color: rgba(212,255,58,0.2);
+  }
+  .backup-banner-icon {
+    width: 32px; height: 32px;
+    border-radius: 10px;
+    background: rgba(255,91,58,0.15);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: var(--warn);
+  }
+  .backup-banner.fresh .backup-banner-icon {
+    background: rgba(212,255,58,0.1);
+    color: var(--accent);
+  }
+  .backup-banner-body { flex: 1; min-width: 0; }
+  .backup-banner-title {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .backup-banner-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-dim);
+    margin-top: 3px;
+  }
+  .backup-banner-arrow { color: var(--ink-dim); flex-shrink: 0; }
+ 
+  /* BACKUP BUTTON */
+  .backup-btn {
+    width: 100%;
+    background: var(--accent);
+    color: var(--bg);
+    border: 0;
+    border-radius: 14px;
+    padding: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 24px rgba(212,255,58,0.15);
+  }
+  .backup-btn:active { transform: scale(0.98); }
+  .backup-status {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 20px;
+  }
+  .backup-status em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .backup-status .stale {
+    color: var(--warn);
+  }
+ 
   /* MODAL */
   .modal-back {
     position: fixed; inset: 0;
@@ -601,7 +685,7 @@
     border-radius: 99px;
     margin: -8px auto 16px auto;
   }
-
+ 
   /* QUOTE LIST */
   .quote-archive {
     display: flex; flex-direction: column; gap: 8px;
@@ -626,7 +710,7 @@
     letter-spacing: 0.1em;
     margin-bottom: 4px;
   }
-
+ 
   /* EMPTY STATE */
   .empty {
     text-align: center;
@@ -635,7 +719,7 @@
     font-family: 'Fraunces', serif;
     font-style: italic;
   }
-
+ 
   /* SETTINGS BUTTON */
   .settings-btn {
     background: transparent;
@@ -649,7 +733,7 @@
     letter-spacing: 0.15em;
     cursor: pointer;
   }
-
+ 
   .actions { display: flex; gap: 8px; margin-top: 24px; }
   .btn {
     flex: 1;
@@ -666,7 +750,7 @@
   }
   .btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 700; }
   .btn.danger { color: var(--warn); border-color: rgba(255,91,58,0.3); }
-
+ 
   /* CELEBRATION */
   @keyframes pop {
     0% { transform: scale(0); opacity: 0; }
@@ -678,15 +762,26 @@
 </head>
 <body>
 <div class="grain"></div>
-
+ 
 <div class="app">
   <header class="brand">
     <div class="brand-mark"><span>◼</span> discipline<em>.</em></div>
     <div class="brand-meta" id="streakBadge">— día activo</div>
   </header>
-
+ 
   <!-- TODAY -->
   <section class="page active" id="page-today">
+    <div id="backupBanner" class="backup-banner" style="display:none;">
+      <div class="backup-banner-icon" id="backupBannerIcon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      </div>
+      <div class="backup-banner-body">
+        <div class="backup-banner-title" id="backupBannerTitle">Sin respaldo</div>
+        <div class="backup-banner-sub" id="backupBannerSub">Toca para guardar en iCloud</div>
+      </div>
+      <div class="backup-banner-arrow">›</div>
+    </div>
+ 
     <div class="today-hero">
       <div class="today-date" id="todayDate">—</div>
       <h1 class="today-title">Hoy es <em id="todayName">—</em></h1>
@@ -695,35 +790,35 @@
         <div class="progress-count"><span id="progressDone">0</span><span>/</span><span id="progressTotal">10</span></div>
       </div>
     </div>
-
+ 
     <div id="weekendNotice" style="display:none; text-align:center; padding:32px 16px; background:var(--bg-soft); border:1px solid var(--border); border-radius:14px; margin-bottom:20px;">
       <div style="font-family:'Fraunces',serif; font-style:italic; font-size:20px; margin-bottom:6px;">Fin de semana</div>
       <div style="font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.15em;">Día de descanso · Vuelves el lunes</div>
     </div>
-
+ 
     <div id="habitsContainer" class="habit-list"></div>
-
+ 
     <div class="section-title" id="quoteSectionTitle" style="display:none;">Frase del día</div>
     <div class="quote-input-wrap" id="quoteInputWrap" style="display:none;">
       <textarea id="quoteInput" placeholder="Escribe algo que te empuje hoy..."></textarea>
     </div>
   </section>
-
+ 
   <!-- WEEK -->
   <section class="page" id="page-week">
     <div class="today-hero">
       <div class="today-date">Vista semanal</div>
       <h1 class="today-title">Tu <em>semana</em></h1>
     </div>
-
+ 
     <div class="period-nav">
       <button id="weekPrev">‹</button>
       <div class="period-label" id="weekLabel">—</div>
       <button id="weekNext">›</button>
     </div>
-
+ 
     <div class="weekday-strip" id="weekdayStrip"></div>
-
+ 
     <div class="stat-grid">
       <div class="stat-card">
         <div class="stat-card-label">Completado</div>
@@ -736,30 +831,30 @@
         <div class="stat-card-sub">de 5 posibles</div>
       </div>
     </div>
-
+ 
     <div class="section-title">Hábitos esta semana</div>
     <div id="weekHabitBars"></div>
   </section>
-
+ 
   <!-- STATS -->
   <section class="page" id="page-stats">
     <div class="today-hero">
       <div class="today-date">Estadísticas</div>
       <h1 class="today-title">Tu <em>progreso</em></h1>
     </div>
-
+ 
     <div class="period-switch" id="statsPeriod">
       <button class="active" data-period="week">Semana</button>
       <button data-period="month">Mes</button>
       <button data-period="all">Total</button>
     </div>
-
+ 
     <div class="period-nav" id="statsNav">
       <button id="statsPrev">‹</button>
       <div class="period-label" id="statsLabel">—</div>
       <button id="statsNext">›</button>
     </div>
-
+ 
     <div class="stat-grid">
       <div class="stat-card">
         <div class="stat-card-label">Tasa global</div>
@@ -778,19 +873,26 @@
         <div class="stat-card-sub" id="changeDetail">vs. período anterior</div>
       </div>
     </div>
-
+ 
     <div class="section-title">Por hábito</div>
     <div id="habitCompareList"></div>
-
+ 
     <div class="section-title">Mapa de calor</div>
     <div class="heatmap-wrap"><div class="heatmap" id="heatmap"></div></div>
-
+ 
     <div class="section-title">Frases guardadas</div>
     <button class="btn" id="openQuotes" style="margin-bottom:24px;">Ver archivo de frases</button>
-
-    <div class="section-title">Datos</div>
+ 
+    <div class="section-title">Respaldo iCloud</div>
+    <button class="backup-btn" id="iCloudBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+      Respaldar a iCloud
+    </button>
+    <div class="backup-status" id="backupStatus">Nunca respaldado</div>
+ 
+    <div class="section-title">Otras opciones</div>
     <div class="actions">
-      <button class="btn" id="exportBtn">Exportar JSON</button>
+      <button class="btn" id="exportBtn">Descargar JSON</button>
       <button class="btn" id="importBtn">Importar</button>
     </div>
     <div class="actions">
@@ -799,7 +901,7 @@
     <input type="file" id="importFile" accept=".json" style="display:none;" />
   </section>
 </div>
-
+ 
 <!-- BOTTOM TABS -->
 <nav class="tabs">
   <button class="active" data-tab="today">
@@ -821,7 +923,7 @@
     Stats
   </button>
 </nav>
-
+ 
 <!-- MODAL -->
 <div class="modal-back" id="modalBack">
   <div class="modal">
@@ -829,7 +931,7 @@
     <div id="modalContent"></div>
   </div>
 </div>
-
+ 
 <script>
 /* =========================================================
    CONFIG
@@ -846,17 +948,17 @@ const HABITS = [
   { id: 'instagram',   label: 'Instagram',                     type: 'numeric', unit: 'min',    goal: 150,   cmp: '<=', weekendOff: false },
   { id: 'frase',       label: 'Frase motivadora',              type: 'quote',                          weekendOff: false }
 ];
-
+ 
 const STORAGE_KEY = 'discipline_v1';
 const DAYS_ES = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
 const DAYS_SHORT = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
 const MONTHS_ES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-
+ 
 /* =========================================================
    STATE
    ========================================================= */
 let state = loadState();
-
+ 
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -867,7 +969,7 @@ function loadState() {
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
-
+ 
 /* =========================================================
    DATE HELPERS
    ========================================================= */
@@ -898,7 +1000,7 @@ function addDays(d, n) {
   r.setDate(r.getDate()+n);
   return r;
 }
-
+ 
 /* =========================================================
    HABIT EVALUATION
    ========================================================= */
@@ -920,7 +1022,7 @@ function isHabitDone(habit, dayRec) {
   return false;
 }
 function getQuoteKey(dayRec) { return dayRec.__key || ''; }
-
+ 
 function dayHabitsActive(date) {
   // weekday only Mon-Fri (1..5)
   const day = date.getDay();
@@ -948,7 +1050,7 @@ function evaluateDay(key) {
   }
   return { total: habits.length, done, pct: Math.round(done/habits.length*100), doneByHabit };
 }
-
+ 
 /* =========================================================
    STREAK
    ========================================================= */
@@ -975,7 +1077,7 @@ function computeActiveDays() {
   // days the user logged anything
   return Object.keys(state.days).length + Object.keys(state.quotes).length;
 }
-
+ 
 /* =========================================================
    RENDER · TODAY
    ========================================================= */
@@ -983,20 +1085,20 @@ function renderToday() {
   const today = new Date();
   const key = dateKey(today);
   const dayRec = getDayRecord(key);
-
+ 
   document.getElementById('todayDate').textContent =
     `${DAYS_ES[today.getDay()].toUpperCase()} · ${today.getDate()} ${MONTHS_ES[today.getMonth()].toUpperCase()}`;
   document.getElementById('todayName').textContent = DAYS_ES[today.getDay()];
-
+ 
   const streak = computeStreak();
   document.getElementById('streakBadge').textContent =
     streak > 0 ? `${streak} día${streak>1?'s':''} de racha` : `${computeActiveDays()} día${computeActiveDays()!==1?'s':''} activo${computeActiveDays()!==1?'s':''}`;
-
+ 
   const container = document.getElementById('habitsContainer');
   const weekendNotice = document.getElementById('weekendNotice');
   const quoteWrap = document.getElementById('quoteInputWrap');
   const quoteTitle = document.getElementById('quoteSectionTitle');
-
+ 
   if (isWeekend(today)) {
     container.innerHTML = '';
     weekendNotice.style.display = 'block';
@@ -1007,20 +1109,20 @@ function renderToday() {
     document.getElementById('progressTotal').textContent = '0';
     return;
   }
-
+ 
   weekendNotice.style.display = 'none';
   container.innerHTML = '';
-
+ 
   const ev = evaluateDay(key);
   document.getElementById('progressFill').style.width = ev.pct + '%';
   document.getElementById('progressDone').textContent = ev.done;
   document.getElementById('progressTotal').textContent = ev.total;
-
+ 
   for (const h of HABITS) {
     if (h.type === 'quote') continue; // rendered separately
     container.appendChild(renderHabitCard(h, dayRec, key, ev.doneByHabit[h.id]));
   }
-
+ 
   // quote
   quoteTitle.style.display = 'flex';
   quoteWrap.style.display = 'block';
@@ -1032,12 +1134,12 @@ function renderToday() {
     refreshProgress();
   };
 }
-
+ 
 function renderHabitCard(habit, dayRec, key, isDone) {
   const card = document.createElement('div');
   card.className = 'habit' + (isDone ? ' done' : '');
   const streak = computeHabitStreak(habit);
-
+ 
   if (habit.type === 'check') {
     card.innerHTML = `
       <div class="habit-check">
@@ -1083,7 +1185,7 @@ function renderHabitCard(habit, dayRec, key, isDone) {
   }
   return card;
 }
-
+ 
 function refreshProgress() {
   const today = new Date();
   const key = dateKey(today);
@@ -1093,7 +1195,7 @@ function refreshProgress() {
   document.getElementById('progressDone').textContent = ev.done;
   document.getElementById('progressTotal').textContent = ev.total;
 }
-
+ 
 function computeHabitStreak(habit) {
   let d = new Date(); d.setHours(0,0,0,0);
   let streak = 0;
@@ -1106,30 +1208,30 @@ function computeHabitStreak(habit) {
   }
   return streak;
 }
-
+ 
 /* =========================================================
    RENDER · WEEK
    ========================================================= */
 let weekOffset = 0;
-
+ 
 function renderWeek() {
   const today = new Date(); today.setHours(0,0,0,0);
   const monday = startOfWeek(today);
   const targetMonday = addDays(monday, weekOffset * 7);
-
+ 
   const sunday = addDays(targetMonday, 6);
   document.getElementById('weekLabel').textContent =
     `${targetMonday.getDate()} ${MONTHS_ES[targetMonday.getMonth()].slice(0,3)} — ${sunday.getDate()} ${MONTHS_ES[sunday.getMonth()].slice(0,3)}`;
-
+ 
   document.getElementById('weekNext').disabled = weekOffset >= 0;
-
+ 
   // strip
   const strip = document.getElementById('weekdayStrip');
   strip.innerHTML = '';
   let totalDone = 0, totalSlots = 0, perfectDays = 0;
   const habitTotals = {};
   HABITS.forEach(h => habitTotals[h.id] = { done: 0, total: 0 });
-
+ 
   for (let i = 0; i < 7; i++) {
     const d = addDays(targetMonday, i);
     const key = dateKey(d);
@@ -1144,7 +1246,7 @@ function renderWeek() {
       ${!isWeekend(d) ? `<div class="weekday-dot ${ev.done === ev.total && ev.total>0 ? 'full' : (ev.done > 0 ? 'partial' : '')}"></div>` : ''}
     `;
     strip.appendChild(cell);
-
+ 
     if (!isWeekend(d) && d <= today) {
       totalDone += ev.done;
       totalSlots += ev.total;
@@ -1155,11 +1257,11 @@ function renderWeek() {
       }
     }
   }
-
+ 
   document.getElementById('weekPct').textContent = totalSlots > 0 ? Math.round(totalDone/totalSlots*100)+'%' : '—';
   document.getElementById('weekTotalDone').textContent = `${totalDone} de ${totalSlots} hábitos`;
   document.getElementById('weekPerfect').textContent = perfectDays;
-
+ 
   // habit bars
   const bars = document.getElementById('weekHabitBars');
   bars.innerHTML = '';
@@ -1180,13 +1282,13 @@ function renderWeek() {
     bars.appendChild(row);
   });
 }
-
+ 
 /* =========================================================
    RENDER · STATS
    ========================================================= */
 let statsPeriod = 'week';
 let statsOffset = 0;
-
+ 
 function getPeriodRange(period, offset) {
   const today = new Date(); today.setHours(0,0,0,0);
   if (period === 'week') {
@@ -1205,7 +1307,7 @@ function getPeriodRange(period, offset) {
   const start = parseKey(sorted[0]);
   return { start, end: today, label: 'Todo el tiempo' };
 }
-
+ 
 function aggregateRange(start, end) {
   const today = new Date(); today.setHours(0,0,0,0);
   const habitAgg = {};
@@ -1226,14 +1328,14 @@ function aggregateRange(start, end) {
   }
   return { habitAgg, totalDone, totalSlots, pct: totalSlots > 0 ? totalDone/totalSlots : 0 };
 }
-
+ 
 function renderStats() {
   const range = getPeriodRange(statsPeriod, statsOffset);
   document.getElementById('statsLabel').textContent = range.label;
   document.getElementById('statsNext').disabled = statsOffset >= 0;
-
+ 
   const curr = aggregateRange(range.start, range.end);
-
+ 
   // previous period for comparison
   let prev = null;
   if (statsPeriod === 'week') {
@@ -1243,13 +1345,13 @@ function renderStats() {
     const pr = getPeriodRange('month', statsOffset - 1);
     prev = aggregateRange(pr.start, pr.end);
   }
-
+ 
   document.getElementById('globalPct').textContent = curr.totalSlots > 0 ? Math.round(curr.pct*100)+'%' : '—';
-
+ 
   const streak = computeStreak();
   document.getElementById('currentStreak').textContent = streak;
   document.getElementById('currentStreakSub').textContent = streak === 1 ? 'día' : 'días';
-
+ 
   // change
   const changeEl = document.getElementById('changePct');
   const arrowEl = document.getElementById('changeArrow');
@@ -1268,7 +1370,7 @@ function renderStats() {
     changeEl.textContent = '';
     detailEl.textContent = statsPeriod === 'all' ? 'rango completo' : 'sin datos previos';
   }
-
+ 
   // per habit comparison
   const list = document.getElementById('habitCompareList');
   list.innerHTML = '';
@@ -1299,15 +1401,15 @@ function renderStats() {
     `;
     list.appendChild(row);
   });
-
+ 
   renderHeatmap(range);
 }
-
+ 
 function renderHeatmap(range) {
   const heatmap = document.getElementById('heatmap');
   heatmap.innerHTML = '';
   const today = new Date(); today.setHours(0,0,0,0);
-
+ 
   // determine columns: up to 31 days from range
   let start = new Date(range.start);
   let end = new Date(range.end);
@@ -1315,7 +1417,7 @@ function renderHeatmap(range) {
   const dayCount = Math.min(31, Math.floor((end - start) / 86400000) + 1);
   const cols = dayCount + 1; // first col = label
   heatmap.style.gridTemplateColumns = `60px repeat(${dayCount}, 14px)`;
-
+ 
   // header row
   const headerSpacer = document.createElement('div');
   heatmap.appendChild(headerSpacer);
@@ -1326,14 +1428,14 @@ function renderHeatmap(range) {
     lbl.textContent = d.getDate() % 5 === 0 || i === 0 ? d.getDate() : '';
     heatmap.appendChild(lbl);
   }
-
+ 
   // each habit row
   HABITS.forEach(h => {
     const lbl = document.createElement('div');
     lbl.className = 'heatmap-habit-label';
     lbl.textContent = h.id;
     heatmap.appendChild(lbl);
-
+ 
     for (let i = 0; i < dayCount; i++) {
       const d = addDays(start, i);
       const cell = document.createElement('div');
@@ -1350,7 +1452,7 @@ function renderHeatmap(range) {
     }
   });
 }
-
+ 
 /* =========================================================
    QUOTES MODAL
    ========================================================= */
@@ -1374,7 +1476,7 @@ function openQuotesModal() {
   document.getElementById('modalBack').classList.add('show');
 }
 function escapeHtml(s) { return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
-
+ 
 /* =========================================================
    TABS
    ========================================================= */
@@ -1388,13 +1490,16 @@ document.querySelectorAll('nav.tabs button').forEach(btn => {
     if (tab === 'today') renderToday();
     else if (tab === 'week') renderWeek();
     else if (tab === 'stats') renderStats();
+    renderBackupUI();
   };
 });
-
+ 
+window.triggerBackup = triggerBackup;
+ 
 /* WEEK NAV */
 document.getElementById('weekPrev').onclick = () => { weekOffset--; renderWeek(); };
 document.getElementById('weekNext').onclick = () => { if (weekOffset < 0) { weekOffset++; renderWeek(); } };
-
+ 
 /* STATS NAV */
 document.querySelectorAll('#statsPeriod button').forEach(btn => {
   btn.onclick = () => {
@@ -1408,22 +1513,24 @@ document.querySelectorAll('#statsPeriod button').forEach(btn => {
 });
 document.getElementById('statsPrev').onclick = () => { statsOffset--; renderStats(); };
 document.getElementById('statsNext').onclick = () => { if (statsOffset < 0) { statsOffset++; renderStats(); } };
-
+ 
 /* QUOTES MODAL */
 document.getElementById('openQuotes').onclick = openQuotesModal;
 document.getElementById('modalBack').onclick = (e) => {
   if (e.target.id === 'modalBack') document.getElementById('modalBack').classList.remove('show');
 };
-
+ 
 /* DATA */
 document.getElementById('exportBtn').onclick = () => {
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const blob = buildBackupBlob();
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `discipline-backup-${dateKey(new Date())}.json`;
+  a.download = backupFilename();
   a.click();
   URL.revokeObjectURL(url);
+  setLastBackup();
+  renderBackupUI();
 };
 document.getElementById('importBtn').onclick = () => document.getElementById('importFile').click();
 document.getElementById('importFile').onchange = (e) => {
@@ -1432,11 +1539,13 @@ document.getElementById('importFile').onchange = (e) => {
   const reader = new FileReader();
   reader.onload = (ev) => {
     try {
-      const data = JSON.parse(ev.target.result);
-      if (data && typeof data === 'object') {
-        state = { days: data.days || {}, quotes: data.quotes || {} };
+      const parsed = JSON.parse(ev.target.result);
+      // accept both new format { app, data: {days, quotes} } and old { days, quotes }
+      const payload = parsed && parsed.data && typeof parsed.data === 'object' ? parsed.data : parsed;
+      if (payload && typeof payload === 'object') {
+        state = { days: payload.days || {}, quotes: payload.quotes || {} };
         saveState();
-        renderToday(); renderWeek(); renderStats();
+        renderToday(); renderWeek(); renderStats(); renderBackupUI();
         alert('Datos importados ✓');
       }
     } catch (err) { alert('Archivo inválido'); }
@@ -1450,12 +1559,132 @@ document.getElementById('resetBtn').onclick = () => {
     renderToday(); renderWeek(); renderStats();
   }
 };
-
+ 
+/* =========================================================
+   BACKUP / iCLOUD
+   ========================================================= */
+const BACKUP_KEY = 'discipline_last_backup';
+const BACKUP_STALE_DAYS = 7;
+ 
+function getLastBackup() {
+  const v = localStorage.getItem(BACKUP_KEY);
+  return v ? parseInt(v, 10) : null;
+}
+function setLastBackup() {
+  localStorage.setItem(BACKUP_KEY, String(Date.now()));
+}
+function daysSinceBackup() {
+  const last = getLastBackup();
+  if (!last) return null;
+  return Math.floor((Date.now() - last) / 86400000);
+}
+function relTime(ts) {
+  const days = Math.floor((Date.now() - ts) / 86400000);
+  if (days === 0) return 'hoy';
+  if (days === 1) return 'ayer';
+  if (days < 7) return `hace ${days} días`;
+  if (days < 30) return `hace ${Math.floor(days/7)} sem`;
+  return `hace ${Math.floor(days/30)} meses`;
+}
+ 
+function buildBackupBlob() {
+  const payload = {
+    app: 'discipline',
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    data: state
+  };
+  return new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+}
+ 
+function backupFilename() {
+  const d = new Date();
+  const stamp = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  return `discipline-${stamp}.json`;
+}
+ 
+async function triggerBackup() {
+  const blob = buildBackupBlob();
+  const filename = backupFilename();
+  const file = new File([blob], filename, { type: 'application/json' });
+ 
+  // Try native Web Share with files (iOS Safari supports this)
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try {
+      await navigator.share({
+        files: [file],
+        title: 'Discipline Backup',
+        text: 'Respaldo de Discipline'
+      });
+      setLastBackup();
+      renderBackupUI();
+      return;
+    } catch (err) {
+      // User cancelled or error — fall through to download fallback only on real error
+      if (err.name === 'AbortError') return; // user cancelled, no message
+    }
+  }
+ 
+  // Fallback: download
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+  setLastBackup();
+  renderBackupUI();
+}
+ 
+function renderBackupUI() {
+  const last = getLastBackup();
+  const days = daysSinceBackup();
+  const banner = document.getElementById('backupBanner');
+  const bTitle = document.getElementById('backupBannerTitle');
+  const bSub = document.getElementById('backupBannerSub');
+  const status = document.getElementById('backupStatus');
+ 
+  if (last === null) {
+    // never backed up — show banner if has any data
+    const hasData = Object.keys(state.days).length > 0 || Object.keys(state.quotes).length > 0;
+    if (hasData) {
+      banner.style.display = 'flex';
+      banner.classList.remove('fresh');
+      bTitle.textContent = 'Sin respaldo';
+      bSub.textContent = 'Toca para guardar en iCloud';
+    } else {
+      banner.style.display = 'none';
+    }
+    status.innerHTML = 'Nunca respaldado';
+  } else if (days >= BACKUP_STALE_DAYS) {
+    banner.style.display = 'flex';
+    banner.classList.remove('fresh');
+    bTitle.textContent = `Respaldo de ${relTime(last)}`;
+    bSub.textContent = 'Recomendado respaldar de nuevo';
+    status.innerHTML = `Último: <span class="stale">${relTime(last)}</span>`;
+  } else {
+    // fresh — banner hidden by default after a day
+    if (days >= 1) {
+      banner.style.display = 'flex';
+      banner.classList.add('fresh');
+      bTitle.textContent = `Respaldo ${relTime(last)}`;
+      bSub.textContent = 'Tus datos están seguros';
+    } else {
+      banner.style.display = 'none';
+    }
+    status.innerHTML = `Último: <em>${relTime(last)}</em>`;
+  }
+}
+ 
 /* INITIAL */
+document.getElementById('iCloudBtn').onclick = triggerBackup;
+document.getElementById('backupBanner').onclick = triggerBackup;
+ 
 renderToday();
 renderWeek();
 renderStats();
-
+renderBackupUI();
+ 
 /* PWA install service worker (no-op fallback) */
 if ('serviceWorker' in navigator) {
   // optional registration if you add sw.js
