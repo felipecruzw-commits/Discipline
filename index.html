@@ -186,6 +186,52 @@
   }
   .progress-count span { color: var(--ink-dim); }
  
+  /* DAY NAV */
+  .day-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .day-nav button {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .day-nav button:active { transform: scale(0.95); }
+  .day-nav button:disabled { opacity: 0.25; cursor: not-allowed; }
+  .day-nav button.day-today-btn {
+    flex: 1;
+    width: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 500;
+  }
+  .day-nav button.day-today-btn:disabled {
+    opacity: 0.3;
+    background: var(--bg-soft);
+  }
+  .past-day-tag {
+    display: inline-block;
+    margin-left: 8px;
+    background: rgba(201,161,74,0.12);
+    color: var(--gold);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    vertical-align: middle;
+  }
+ 
   /* HABIT LIST */
   .habit-list { display: flex; flex-direction: column; gap: 10px; }
  
@@ -509,43 +555,71 @@
     font-style: italic;
   }
  
-  /* HEATMAP */
-  .heatmap-wrap {
+  /* CHART */
+  .chart-wrap {
     background: var(--bg-soft);
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 16px;
-    margin-bottom: 24px;
-    overflow-x: auto;
+    margin-bottom: 16px;
   }
-  .heatmap {
+  .chart-header {
+    margin-bottom: 14px;
+  }
+  .chart-stats {
     display: grid;
-    grid-template-columns: 60px repeat(31, 14px);
-    gap: 3px;
-    align-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
   }
-  .heatmap-habit-label {
+  .chart-stat {
+    text-align: left;
+  }
+  .chart-stat-label {
     font-family: 'JetBrains Mono', monospace;
     font-size: 9px;
-    color: var(--ink-dim);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    text-align: right;
-    padding-right: 6px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    letter-spacing: 0.15em;
+    color: var(--ink-dim);
+    margin-bottom: 4px;
   }
-  .heatmap-cell {
-    width: 14px; height: 14px;
-    border-radius: 3px;
-    background: var(--bg-elevated);
+  .chart-stat-value {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
   }
-  .heatmap-cell.l1 { background: rgba(212,255,58,0.2); }
-  .heatmap-cell.l2 { background: rgba(212,255,58,0.5); }
-  .heatmap-cell.l3 { background: var(--accent); }
-  .heatmap-cell.empty { background: transparent; border: 1px dashed var(--border); }
-  .heatmap-cell.weekend { background: var(--bg); border: 1px solid var(--border); }
+  .chart-stat-value.up { color: var(--accent); }
+  .chart-stat-value.down { color: var(--warn); }
+  .chart-stat-value.flat { color: var(--ink-dim); }
+ 
+  .chart-svg-wrap {
+    position: relative;
+    width: 100%;
+  }
+  #evolutionChart {
+    width: 100%;
+    height: 180px;
+    display: block;
+    overflow: visible;
+  }
+  .chart-x-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .chart-empty {
+    text-align: center;
+    padding: 30px 16px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink-dim);
+  }
  
   /* QUOTE */
   .quote-input-wrap {
@@ -655,35 +729,151 @@
     color: var(--warn);
   }
  
+  /* HABIT EDITOR */
+  .habit-editor-list {
+    display: flex; flex-direction: column; gap: 8px;
+    margin-bottom: 16px;
+  }
+  .habit-editor-item {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .habit-editor-info { flex: 1; min-width: 0; }
+  .habit-editor-label {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    line-height: 1.2;
+  }
+  .habit-editor-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-top: 3px;
+  }
+  .habit-editor-actions { display: flex; gap: 4px; flex-shrink: 0; }
+  .icon-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--ink-dim);
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .icon-btn:active { transform: scale(0.92); }
+  .icon-btn.danger:hover, .icon-btn.danger:active {
+    color: var(--warn); border-color: rgba(255,91,58,0.3);
+  }
+ 
+  .habit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .habit-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-dim);
+  }
+  .habit-form input[type="text"],
+  .habit-form input[type="number"],
+  .habit-form select {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    width: 100%;
+  }
+  .habit-form input:focus, .habit-form select:focus {
+    outline: none; border-color: var(--accent);
+  }
+  .habit-form .row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 8px;
+  }
+  .habit-form .row label { gap: 6px; }
+ 
   /* MODAL */
   .modal-back {
     position: fixed; inset: 0;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.65);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: 200;
     display: none;
     align-items: flex-end;
     justify-content: center;
     padding-bottom: 0;
+    overscroll-behavior: contain;
   }
   .modal-back.show { display: flex; }
   .modal {
     background: var(--bg-elevated);
     border: 1px solid var(--border);
-    border-radius: 20px 20px 0 0;
-    padding: 24px 20px calc(40px + env(safe-area-inset-bottom));
+    border-top: 0;
+    border-radius: 24px 24px 0 0;
+    padding: 18px 20px 0 20px;
     width: 100%; max-width: 480px;
-    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    height: 92vh;
+    height: 92dvh;
+    max-height: 92vh;
+    max-height: 92dvh;
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.3);
+  }
+  .modal-scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0 -20px;
+    padding: 0 20px calc(32px + env(safe-area-inset-bottom)) 20px;
+    /* fade at top and bottom for visual indication of scroll */
+    mask-image: linear-gradient(to bottom, transparent 0px, black 12px, black calc(100% - 32px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0px, black 12px, black calc(100% - 32px), transparent 100%);
   }
   @keyframes slideUp {
     from { transform: translateY(100%); }
     to { transform: translateY(0); }
   }
   .modal-handle {
-    width: 36px; height: 4px;
+    width: 40px; height: 4px;
     background: var(--border-strong);
     border-radius: 99px;
-    margin: -8px auto 16px auto;
+    margin: 0 auto 14px auto;
+    flex-shrink: 0;
+    cursor: grab;
+  }
+  .modal-close-area {
+    flex-shrink: 0;
+    padding: 6px 0;
+    margin: -6px 0 4px 0;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
   }
  
   /* QUOTE LIST */
@@ -750,6 +940,20 @@
   }
   .btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 700; }
   .btn.danger { color: var(--warn); border-color: rgba(255,91,58,0.3); }
+  .btn.ghost-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px dashed var(--border-strong);
+    color: var(--ink-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .btn.ghost-btn:active {
+    color: var(--ink);
+    border-color: var(--ink-dim);
+  }
  
   /* CELEBRATION */
   @keyframes pop {
@@ -784,10 +988,19 @@
  
     <div class="today-hero">
       <div class="today-date" id="todayDate">—</div>
-      <h1 class="today-title">Hoy es <em id="todayName">—</em></h1>
+      <h1 class="today-title" id="todayHeading">Hoy es <em id="todayName">—</em></h1>
       <div class="today-progress">
         <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
         <div class="progress-count"><span id="progressDone">0</span><span>/</span><span id="progressTotal">10</span></div>
+      </div>
+      <div class="day-nav">
+        <button id="dayPrev" aria-label="Día anterior">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button id="dayToday" class="day-today-btn">Hoy</button>
+        <button id="dayNext" aria-label="Día siguiente">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
       </div>
     </div>
  
@@ -802,6 +1015,11 @@
     <div class="quote-input-wrap" id="quoteInputWrap" style="display:none;">
       <textarea id="quoteInput" placeholder="Escribe algo que te empuje hoy..."></textarea>
     </div>
+ 
+    <button class="btn ghost-btn" id="manageHabitsBtnHome" style="margin-top:18px; margin-bottom:8px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px; vertical-align:-2px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Modificar hábitos
+    </button>
   </section>
  
   <!-- WEEK -->
@@ -877,8 +1095,35 @@
     <div class="section-title">Por hábito</div>
     <div id="habitCompareList"></div>
  
-    <div class="section-title">Mapa de calor</div>
-    <div class="heatmap-wrap"><div class="heatmap" id="heatmap"></div></div>
+    <div class="section-title">Evolución</div>
+    <div class="chart-wrap" id="chartWrap">
+      <div class="chart-header">
+        <div class="chart-stats">
+          <div class="chart-stat">
+            <div class="chart-stat-label">Promedio</div>
+            <div class="chart-stat-value" id="chartAvg">—</div>
+          </div>
+          <div class="chart-stat">
+            <div class="chart-stat-label">Mejor día</div>
+            <div class="chart-stat-value" id="chartBest">—</div>
+          </div>
+          <div class="chart-stat">
+            <div class="chart-stat-label">Tendencia</div>
+            <div class="chart-stat-value" id="chartTrend">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="chart-svg-wrap">
+        <svg id="evolutionChart" viewBox="0 0 400 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="chart-x-labels" id="chartXLabels"></div>
+      </div>
+      <div class="chart-empty" id="chartEmpty" style="display:none;">
+        Sin datos suficientes para este período
+      </div>
+    </div>
+ 
+    <div class="section-title">Hábitos</div>
+    <button class="btn" id="manageHabitsBtn" style="margin-bottom:24px;">Configurar hábitos</button>
  
     <div class="section-title">Frases guardadas</div>
     <button class="btn" id="openQuotes" style="margin-bottom:24px;">Ver archivo de frases</button>
@@ -927,8 +1172,10 @@
 <!-- MODAL -->
 <div class="modal-back" id="modalBack">
   <div class="modal">
-    <div class="modal-handle"></div>
-    <div id="modalContent"></div>
+    <div class="modal-close-area" id="modalCloseArea">
+      <div class="modal-handle"></div>
+    </div>
+    <div id="modalContent" style="display:flex; flex-direction:column; min-height:0; flex:1;"></div>
   </div>
 </div>
  
@@ -936,18 +1183,20 @@
 /* =========================================================
    CONFIG
    ========================================================= */
-const HABITS = [
-  { id: 'cama',        label: 'Hacer mi cama',                 type: 'check',                          weekendOff: false },
-  { id: 'creatina',    label: 'Tomar mi creatina',             type: 'check',                          weekendOff: false },
-  { id: 'gym',         label: 'Ir al gym',                     type: 'check',                          weekendOff: false },
-  { id: 'malicia',     label: 'No malicia',                    type: 'check',                          weekendOff: false },
-  { id: 'lectura',     label: 'Leer 10 páginas',               type: 'check',                          weekendOff: false },
-  { id: 'amigo',       label: 'Llamar a un amigo',             type: 'check',                          weekendOff: false },
-  { id: 'agua',        label: 'Tomar 2L de agua',              type: 'numeric', unit: 'L',      goal: 2,     cmp: '>=', weekendOff: false },
-  { id: 'pasos',       label: 'Pasos',                         type: 'numeric', unit: 'pasos',  goal: 7000,  cmp: '>=', weekendOff: false },
-  { id: 'instagram',   label: 'Instagram',                     type: 'numeric', unit: 'min',    goal: 150,   cmp: '<=', weekendOff: false },
-  { id: 'frase',       label: 'Frase motivadora',              type: 'quote',                          weekendOff: false }
+const DEFAULT_HABITS = [
+  { id: 'cama',        label: 'Hacer mi cama',     type: 'check' },
+  { id: 'creatina',    label: 'Tomar mi creatina', type: 'check' },
+  { id: 'gym',         label: 'Ir al gym',         type: 'check' },
+  { id: 'malicia',     label: 'No malicia',        type: 'check' },
+  { id: 'lectura',     label: 'Leer 10 páginas',   type: 'check' },
+  { id: 'amigo',       label: 'Llamar a un amigo', type: 'check' },
+  { id: 'agua',        label: 'Tomar 2L de agua',  type: 'numeric', unit: 'L',     goal: 2,    cmp: '>=' },
+  { id: 'pasos',       label: 'Pasos',             type: 'numeric', unit: 'pasos', goal: 7000, cmp: '>=' },
+  { id: 'instagram',   label: 'Instagram',         type: 'numeric', unit: 'min',   goal: 150,  cmp: '<=' },
+  { id: 'frase',       label: 'Frase motivadora',  type: 'quote' }
 ];
+ 
+let HABITS = []; // populated from state in loadState()
  
 const STORAGE_KEY = 'discipline_v1';
 const DAYS_ES = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
@@ -960,13 +1209,23 @@ const MONTHS_ES = ['enero','febrero','marzo','abril','mayo','junio','julio','ago
 let state = loadState();
  
 function loadState() {
+  let s;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
+    if (raw) s = JSON.parse(raw);
   } catch(e){}
-  return { days: {}, quotes: {} };
+  if (!s) s = { days: {}, quotes: {}, habits: null };
+  // populate HABITS
+  if (Array.isArray(s.habits) && s.habits.length > 0) {
+    HABITS = s.habits;
+  } else {
+    HABITS = JSON.parse(JSON.stringify(DEFAULT_HABITS));
+    s.habits = HABITS;
+  }
+  return s;
 }
 function saveState() {
+  state.habits = HABITS;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
  
@@ -1081,14 +1340,42 @@ function computeActiveDays() {
 /* =========================================================
    RENDER · TODAY
    ========================================================= */
-function renderToday() {
-  const today = new Date();
-  const key = dateKey(today);
-  const dayRec = getDayRecord(key);
+let viewingDate = new Date(); // can be changed via day nav
+viewingDate.setHours(0,0,0,0);
  
+function isSameDay(a, b) { return dateKey(a) === dateKey(b); }
+ 
+function renderToday() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  // clamp viewingDate to <= today
+  if (viewingDate > today) viewingDate = new Date(today);
+  const date = viewingDate;
+  const key = dateKey(date);
+  const dayRec = getDayRecord(key);
+  const isToday = isSameDay(date, today);
+ 
+  // Date label
   document.getElementById('todayDate').textContent =
-    `${DAYS_ES[today.getDay()].toUpperCase()} · ${today.getDate()} ${MONTHS_ES[today.getMonth()].toUpperCase()}`;
-  document.getElementById('todayName').textContent = DAYS_ES[today.getDay()];
+    `${DAYS_ES[date.getDay()].toUpperCase()} · ${date.getDate()} ${MONTHS_ES[date.getMonth()].toUpperCase()}`;
+ 
+  // Heading
+  const heading = document.getElementById('todayHeading');
+  if (isToday) {
+    heading.innerHTML = `Hoy es <em>${DAYS_ES[date.getDay()]}</em>`;
+  } else {
+    // calculate diff in days
+    const diff = Math.round((today - date) / 86400000);
+    let prefix = '';
+    if (diff === 1) prefix = 'Ayer fue';
+    else if (diff < 7) prefix = 'Hace días fue';
+    else prefix = 'Aquel día fue';
+    heading.innerHTML = `${prefix} <em>${DAYS_ES[date.getDay()]}</em><span class="past-day-tag">${diff}d atrás</span>`;
+  }
+ 
+  // Day nav buttons
+  document.getElementById('dayNext').disabled = isToday;
+  document.getElementById('dayToday').disabled = isToday;
+  document.getElementById('dayToday').textContent = isToday ? 'Hoy' : 'Volver a hoy';
  
   const streak = computeStreak();
   document.getElementById('streakBadge').textContent =
@@ -1099,9 +1386,10 @@ function renderToday() {
   const quoteWrap = document.getElementById('quoteInputWrap');
   const quoteTitle = document.getElementById('quoteSectionTitle');
  
-  if (isWeekend(today)) {
+  if (isWeekend(date)) {
     container.innerHTML = '';
     weekendNotice.style.display = 'block';
+    weekendNotice.querySelector('div').textContent = isToday ? 'Fin de semana' : 'Era fin de semana';
     quoteWrap.style.display = 'none';
     quoteTitle.style.display = 'none';
     document.getElementById('progressFill').style.width = '0%';
@@ -1119,11 +1407,10 @@ function renderToday() {
   document.getElementById('progressTotal').textContent = ev.total;
  
   for (const h of HABITS) {
-    if (h.type === 'quote') continue; // rendered separately
+    if (h.type === 'quote') continue;
     container.appendChild(renderHabitCard(h, dayRec, key, ev.doneByHabit[h.id]));
   }
  
-  // quote
   quoteTitle.style.display = 'flex';
   quoteWrap.style.display = 'block';
   const qInput = document.getElementById('quoteInput');
@@ -1187,9 +1474,9 @@ function renderHabitCard(habit, dayRec, key, isDone) {
 }
  
 function refreshProgress() {
-  const today = new Date();
-  const key = dateKey(today);
-  if (isWeekend(today)) return;
+  const date = viewingDate;
+  const key = dateKey(date);
+  if (isWeekend(date)) return;
   const ev = evaluateDay(key);
   document.getElementById('progressFill').style.width = ev.pct + '%';
   document.getElementById('progressDone').textContent = ev.done;
@@ -1402,55 +1689,173 @@ function renderStats() {
     list.appendChild(row);
   });
  
-  renderHeatmap(range);
+  renderEvolutionChart(range);
 }
  
-function renderHeatmap(range) {
-  const heatmap = document.getElementById('heatmap');
-  heatmap.innerHTML = '';
+function renderEvolutionChart(range) {
+  const svg = document.getElementById('evolutionChart');
+  const xLabels = document.getElementById('chartXLabels');
+  const empty = document.getElementById('chartEmpty');
   const today = new Date(); today.setHours(0,0,0,0);
  
-  // determine columns: up to 31 days from range
-  let start = new Date(range.start);
-  let end = new Date(range.end);
-  // cap to 31 columns
-  const dayCount = Math.min(31, Math.floor((end - start) / 86400000) + 1);
-  const cols = dayCount + 1; // first col = label
-  heatmap.style.gridTemplateColumns = `60px repeat(${dayCount}, 14px)`;
- 
-  // header row
-  const headerSpacer = document.createElement('div');
-  heatmap.appendChild(headerSpacer);
-  for (let i = 0; i < dayCount; i++) {
-    const d = addDays(start, i);
-    const lbl = document.createElement('div');
-    lbl.style.cssText = 'font-family:JetBrains Mono,monospace; font-size:8px; color:var(--ink-faint); text-align:center;';
-    lbl.textContent = d.getDate() % 5 === 0 || i === 0 ? d.getDate() : '';
-    heatmap.appendChild(lbl);
+  // Build data points: only weekdays in range, up to today
+  const points = [];
+  let d = new Date(range.start);
+  while (d <= range.end && d <= today) {
+    if (!isWeekend(d)) {
+      const ev = evaluateDay(dateKey(d));
+      if (ev.total > 0) {
+        points.push({
+          date: new Date(d),
+          pct: ev.done / ev.total,
+          done: ev.done,
+          total: ev.total
+        });
+      }
+    }
+    d = addDays(d, 1);
   }
  
-  // each habit row
-  HABITS.forEach(h => {
-    const lbl = document.createElement('div');
-    lbl.className = 'heatmap-habit-label';
-    lbl.textContent = h.id;
-    heatmap.appendChild(lbl);
+  // Empty state
+  if (points.length === 0) {
+    svg.style.display = 'none';
+    xLabels.style.display = 'none';
+    empty.style.display = 'block';
+    document.getElementById('chartAvg').textContent = '—';
+    document.getElementById('chartBest').textContent = '—';
+    document.getElementById('chartTrend').textContent = '—';
+    return;
+  }
+  svg.style.display = 'block';
+  xLabels.style.display = 'flex';
+  empty.style.display = 'none';
  
-    for (let i = 0; i < dayCount; i++) {
-      const d = addDays(start, i);
-      const cell = document.createElement('div');
-      cell.className = 'heatmap-cell';
-      if (isWeekend(d)) {
-        cell.classList.add('weekend');
-      } else if (d > today) {
-        cell.classList.add('empty');
-      } else {
-        const ev = evaluateDay(dateKey(d));
-        if (ev.doneByHabit[h.id]) cell.classList.add('l3');
-      }
-      heatmap.appendChild(cell);
+  // SVG dimensions (viewBox 400x200)
+  const W = 400, H = 200;
+  const PAD = { top: 14, right: 12, bottom: 18, left: 28 };
+  const innerW = W - PAD.left - PAD.right;
+  const innerH = H - PAD.top - PAD.bottom;
+ 
+  // Build SVG
+  let svgContent = '';
+ 
+  // Y-axis grid lines at 0, 25, 50, 75, 100
+  for (let i = 0; i <= 4; i++) {
+    const y = PAD.top + (innerH * i / 4);
+    const pct = 100 - i * 25;
+    svgContent += `<line x1="${PAD.left}" y1="${y}" x2="${W - PAD.right}" y2="${y}" stroke="#2a2a2a" stroke-width="1" stroke-dasharray="${i === 4 ? '0' : '2,3'}" />`;
+    svgContent += `<text x="${PAD.left - 6}" y="${y + 3}" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="8" fill="#4a4540">${pct}</text>`;
+  }
+ 
+  // Compute X positions
+  const n = points.length;
+  const xStep = n > 1 ? innerW / (n - 1) : 0;
+  const xOf = (i) => n === 1 ? PAD.left + innerW / 2 : PAD.left + i * xStep;
+  const yOf = (pct) => PAD.top + innerH * (1 - pct);
+ 
+  // Bars (background) - subtle
+  const barW = n > 1 ? Math.max(2, xStep * 0.55) : 16;
+  points.forEach((p, i) => {
+    const x = xOf(i) - barW / 2;
+    const y = yOf(p.pct);
+    const h = innerH - (y - PAD.top);
+    const isPerfect = p.pct >= 1;
+    const fill = isPerfect ? 'rgba(212,255,58,0.12)' : 'rgba(212,255,58,0.05)';
+    svgContent += `<rect x="${x}" y="${y}" width="${barW}" height="${h}" rx="2" fill="${fill}" />`;
+  });
+ 
+  // Line path
+  if (n > 1) {
+    let path = '';
+    points.forEach((p, i) => {
+      const x = xOf(i);
+      const y = yOf(p.pct);
+      path += (i === 0 ? 'M' : ' L') + ` ${x.toFixed(2)} ${y.toFixed(2)}`;
+    });
+    // Area fill under line
+    let areaPath = path + ` L ${xOf(n-1).toFixed(2)} ${(PAD.top + innerH).toFixed(2)} L ${xOf(0).toFixed(2)} ${(PAD.top + innerH).toFixed(2)} Z`;
+    svgContent += `<path d="${areaPath}" fill="url(#chartGrad)" opacity="0.6" />`;
+    svgContent += `<path d="${path}" fill="none" stroke="#d4ff3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />`;
+  }
+ 
+  // Points (circles)
+  points.forEach((p, i) => {
+    const x = xOf(i);
+    const y = yOf(p.pct);
+    const isPerfect = p.pct >= 1;
+    const isToday = dateKey(p.date) === dateKey(today);
+    const r = isToday ? 4.5 : (isPerfect ? 3.5 : 2.5);
+    const fill = isPerfect ? '#d4ff3a' : '#1c1c1c';
+    const stroke = '#d4ff3a';
+    const sw = 1.8;
+    svgContent += `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}" />`;
+    if (isToday) {
+      svgContent += `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="8" fill="none" stroke="#d4ff3a" stroke-width="1" opacity="0.4" />`;
     }
   });
+ 
+  // Gradient defs
+  svgContent = `
+    <defs>
+      <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#d4ff3a" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#d4ff3a" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+  ` + svgContent;
+ 
+  svg.innerHTML = svgContent;
+ 
+  // X-axis labels (just first, middle, last)
+  xLabels.innerHTML = '';
+  const labelIndices = n <= 3
+    ? points.map((_, i) => i)
+    : [0, Math.floor((n-1)/2), n-1];
+  // Use flex with width matching
+  xLabels.style.paddingLeft = (PAD.left / W * 100) + '%';
+  xLabels.style.paddingRight = (PAD.right / W * 100) + '%';
+  labelIndices.forEach(i => {
+    const p = points[i];
+    const span = document.createElement('span');
+    span.textContent = `${p.date.getDate()} ${MONTHS_ES[p.date.getMonth()].slice(0,3)}`;
+    xLabels.appendChild(span);
+  });
+ 
+  // Stats
+  const avg = points.reduce((s, p) => s + p.pct, 0) / n;
+  const best = points.reduce((m, p) => p.pct > m.pct ? p : m, points[0]);
+ 
+  document.getElementById('chartAvg').textContent = Math.round(avg * 100) + '%';
+  document.getElementById('chartBest').textContent =
+    `${best.date.getDate()} ${MONTHS_ES[best.date.getMonth()].slice(0,3)}`;
+ 
+  // Trend: linear regression slope (rough)
+  const trendEl = document.getElementById('chartTrend');
+  if (n >= 3) {
+    let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+    points.forEach((p, i) => {
+      sumX += i;
+      sumY += p.pct;
+      sumXY += i * p.pct;
+      sumXX += i * i;
+    });
+    const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    // slope is "pct change per day"
+    const trendPct = slope * (n - 1) * 100; // total trend across the range
+    if (trendPct > 5) {
+      trendEl.textContent = '↑ subiendo';
+      trendEl.className = 'chart-stat-value up';
+    } else if (trendPct < -5) {
+      trendEl.textContent = '↓ bajando';
+      trendEl.className = 'chart-stat-value down';
+    } else {
+      trendEl.textContent = '→ estable';
+      trendEl.className = 'chart-stat-value flat';
+    }
+  } else {
+    trendEl.textContent = '—';
+    trendEl.className = 'chart-stat-value flat';
+  }
 }
  
 /* =========================================================
@@ -1462,20 +1867,210 @@ function openQuotesModal() {
     ? `<h2 style="font-family:Fraunces,serif; font-style:italic; font-weight:300; font-size:28px; margin:0 0 16px 0;">Archivo de frases</h2>
        <div class="empty">Aún no tienes frases guardadas</div>`
     : `<h2 style="font-family:Fraunces,serif; font-style:italic; font-weight:300; font-size:28px; margin:0 0 4px 0;">Archivo de frases</h2>
-       <div style="font-family:JetBrains Mono,monospace; font-size:10px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.15em; margin-bottom:16px;">${keys.length} guardadas</div>
-       <div class="quote-archive" style="max-height:60vh; overflow-y:auto;">
-         ${keys.map(k => {
-           const d = parseKey(k);
-           return `<div class="quote-item">
-             <div class="quote-item-date">${d.getDate()} ${MONTHS_ES[d.getMonth()].slice(0,3)} ${d.getFullYear()}</div>
-             "${escapeHtml(state.quotes[k])}"
-           </div>`;
-         }).join('')}
+       <div style="font-family:JetBrains Mono,monospace; font-size:10px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.15em; margin-bottom:16px; flex-shrink:0;">${keys.length} guardadas</div>
+       <div class="modal-scroll">
+         <div class="quote-archive">
+           ${keys.map(k => {
+             const d = parseKey(k);
+             return `<div class="quote-item">
+               <div class="quote-item-date">${d.getDate()} ${MONTHS_ES[d.getMonth()].slice(0,3)} ${d.getFullYear()}</div>
+               "${escapeHtml(state.quotes[k])}"
+             </div>`;
+           }).join('')}
+         </div>
        </div>`;
   document.getElementById('modalContent').innerHTML = html;
   document.getElementById('modalBack').classList.add('show');
 }
 function escapeHtml(s) { return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
+ 
+/* =========================================================
+   HABIT EDITOR
+   ========================================================= */
+function openHabitsModal() {
+  const html = `
+    <h2 style="font-family:Fraunces,serif; font-style:italic; font-weight:300; font-size:28px; margin:0 0 4px 0; flex-shrink:0;">Configurar hábitos</h2>
+    <div style="font-family:JetBrains Mono,monospace; font-size:10px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.15em; margin-bottom:16px; flex-shrink:0;">${HABITS.length} activos</div>
+    <div class="modal-scroll">
+      <div class="habit-editor-list" id="habitEditorList"></div>
+      <button class="btn primary" id="addHabitBtn" style="margin-bottom:12px;">+ Añadir hábito</button>
+      <button class="btn" id="restoreDefaultsBtn">Restaurar valores por defecto</button>
+    </div>
+  `;
+  document.getElementById('modalContent').innerHTML = html;
+  document.getElementById('modalBack').classList.add('show');
+  renderHabitEditorList();
+  document.getElementById('addHabitBtn').onclick = () => openHabitForm(null);
+  document.getElementById('restoreDefaultsBtn').onclick = () => {
+    if (confirm('¿Restaurar los hábitos por defecto? Tu historial NO se borra, solo cambia la lista de hábitos.')) {
+      HABITS = JSON.parse(JSON.stringify(DEFAULT_HABITS));
+      saveState();
+      renderHabitEditorList();
+    }
+  };
+}
+ 
+function describeHabit(h) {
+  if (h.type === 'check') return 'check diario';
+  if (h.type === 'quote') return 'frase escrita';
+  if (h.type === 'numeric') {
+    return h.cmp === '>=' ? `meta: ${h.goal} ${h.unit || ''}+` : `máx: ${h.goal} ${h.unit || ''}`;
+  }
+  return '';
+}
+ 
+function renderHabitEditorList() {
+  const list = document.getElementById('habitEditorList');
+  if (!list) return;
+  list.innerHTML = '';
+  HABITS.forEach((h, idx) => {
+    const item = document.createElement('div');
+    item.className = 'habit-editor-item';
+    item.innerHTML = `
+      <div class="habit-editor-info">
+        <div class="habit-editor-label">${escapeHtml(h.label)}</div>
+        <div class="habit-editor-meta">${describeHabit(h)}</div>
+      </div>
+      <div class="habit-editor-actions">
+        <button class="icon-btn" data-act="up" ${idx === 0 ? 'disabled' : ''} aria-label="Subir">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        </button>
+        <button class="icon-btn" data-act="down" ${idx === HABITS.length - 1 ? 'disabled' : ''} aria-label="Bajar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <button class="icon-btn" data-act="edit" aria-label="Editar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+        </button>
+        <button class="icon-btn danger" data-act="del" aria-label="Eliminar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/></svg>
+        </button>
+      </div>
+    `;
+    item.querySelector('[data-act="up"]').onclick = (e) => {
+      e.stopPropagation();
+      if (idx > 0) {
+        [HABITS[idx-1], HABITS[idx]] = [HABITS[idx], HABITS[idx-1]];
+        saveState();
+        renderHabitEditorList();
+      }
+    };
+    item.querySelector('[data-act="down"]').onclick = (e) => {
+      e.stopPropagation();
+      if (idx < HABITS.length - 1) {
+        [HABITS[idx], HABITS[idx+1]] = [HABITS[idx+1], HABITS[idx]];
+        saveState();
+        renderHabitEditorList();
+      }
+    };
+    item.querySelector('[data-act="edit"]').onclick = (e) => {
+      e.stopPropagation();
+      openHabitForm(idx);
+    };
+    item.querySelector('[data-act="del"]').onclick = (e) => {
+      e.stopPropagation();
+      if (confirm(`¿Eliminar "${h.label}"?\n\nEl historial registrado para este hábito permanece guardado pero ya no aparecerá en la app.`)) {
+        HABITS.splice(idx, 1);
+        saveState();
+        renderHabitEditorList();
+      }
+    };
+    list.appendChild(item);
+  });
+}
+ 
+function openHabitForm(idx) {
+  // idx = null for new habit
+  const isNew = idx === null;
+  const h = isNew
+    ? { id: '', label: '', type: 'check', unit: '', goal: 1, cmp: '>=' }
+    : { ...HABITS[idx] };
+ 
+  const html = `
+    <h2 style="font-family:Fraunces,serif; font-style:italic; font-weight:300; font-size:28px; margin:0 0 16px 0; flex-shrink:0;">${isNew ? 'Nuevo hábito' : 'Editar hábito'}</h2>
+    <div class="modal-scroll">
+      <div class="habit-form">
+        <label>
+          Nombre
+          <input type="text" id="hf-label" value="${escapeHtml(h.label)}" placeholder="Ej. Meditar 10 min" />
+        </label>
+        <label>
+          Tipo
+          <select id="hf-type">
+            <option value="check" ${h.type === 'check' ? 'selected' : ''}>Check (sí/no)</option>
+            <option value="numeric" ${h.type === 'numeric' ? 'selected' : ''}>Numérico (con meta)</option>
+            <option value="quote" ${h.type === 'quote' ? 'selected' : ''}>Texto / frase</option>
+          </select>
+        </label>
+        <div id="hf-numeric-fields" style="display:${h.type === 'numeric' ? 'block' : 'none'};">
+          <div class="row">
+            <label>
+              Unidad
+              <input type="text" id="hf-unit" value="${escapeHtml(h.unit || '')}" placeholder="min, L, pasos…" />
+            </label>
+            <label>
+              Meta
+              <input type="number" id="hf-goal" value="${h.goal ?? 1}" />
+            </label>
+            <label>
+              Tipo
+              <select id="hf-cmp">
+                <option value=">=" ${h.cmp === '>=' ? 'selected' : ''}>≥ (mínimo)</option>
+                <option value="<=" ${h.cmp === '<=' ? 'selected' : ''}>≤ (máximo)</option>
+              </select>
+            </label>
+          </div>
+          <div style="font-family:JetBrains Mono,monospace; font-size:10px; color:var(--ink-dim); margin-top:-4px;">
+            ≥ = quieres alcanzar (ej. pasos). ≤ = quieres no superar (ej. tiempo en redes).
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="actions" style="flex-shrink:0; margin-top:16px;">
+      <button class="btn" id="hf-cancel">Cancelar</button>
+      <button class="btn primary" id="hf-save">${isNew ? 'Crear' : 'Guardar'}</button>
+    </div>
+  `;
+  document.getElementById('modalContent').innerHTML = html;
+  document.getElementById('modalBack').classList.add('show');
+ 
+  document.getElementById('hf-type').onchange = (e) => {
+    document.getElementById('hf-numeric-fields').style.display = e.target.value === 'numeric' ? 'block' : 'none';
+  };
+  document.getElementById('hf-cancel').onclick = openHabitsModal;
+  document.getElementById('hf-save').onclick = () => {
+    const label = document.getElementById('hf-label').value.trim();
+    const type = document.getElementById('hf-type').value;
+    if (!label) { alert('Ponle un nombre al hábito'); return; }
+ 
+    const newHabit = { label, type };
+    if (isNew) {
+      // generate stable id from label
+      const base = label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 24) || 'habit';
+      let candidate = base, n = 2;
+      const taken = new Set(HABITS.map(x => x.id));
+      while (taken.has(candidate)) candidate = `${base}_${n++}`;
+      newHabit.id = candidate;
+    } else {
+      newHabit.id = h.id;
+    }
+ 
+    if (type === 'numeric') {
+      const unit = document.getElementById('hf-unit').value.trim();
+      const goal = parseFloat(document.getElementById('hf-goal').value);
+      const cmp = document.getElementById('hf-cmp').value;
+      if (isNaN(goal)) { alert('La meta debe ser un número'); return; }
+      newHabit.unit = unit;
+      newHabit.goal = goal;
+      newHabit.cmp = cmp;
+    }
+ 
+    if (isNew) HABITS.push(newHabit);
+    else HABITS[idx] = newHabit;
+ 
+    saveState();
+    openHabitsModal();
+  };
+}
  
 /* =========================================================
    TABS
@@ -1487,7 +2082,10 @@ document.querySelectorAll('nav.tabs button').forEach(btn => {
     const tab = btn.dataset.tab;
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + tab).classList.add('active');
-    if (tab === 'today') renderToday();
+    if (tab === 'today') {
+      viewingDate = new Date(); viewingDate.setHours(0,0,0,0);
+      renderToday();
+    }
     else if (tab === 'week') renderWeek();
     else if (tab === 'stats') renderStats();
     renderBackupUI();
@@ -1495,6 +2093,23 @@ document.querySelectorAll('nav.tabs button').forEach(btn => {
 });
  
 window.triggerBackup = triggerBackup;
+ 
+/* DAY NAV */
+document.getElementById('dayPrev').onclick = () => {
+  viewingDate = addDays(viewingDate, -1);
+  renderToday();
+};
+document.getElementById('dayNext').onclick = () => {
+  const today = new Date(); today.setHours(0,0,0,0);
+  if (viewingDate < today) {
+    viewingDate = addDays(viewingDate, 1);
+    renderToday();
+  }
+};
+document.getElementById('dayToday').onclick = () => {
+  viewingDate = new Date(); viewingDate.setHours(0,0,0,0);
+  renderToday();
+};
  
 /* WEEK NAV */
 document.getElementById('weekPrev').onclick = () => { weekOffset--; renderWeek(); };
@@ -1516,9 +2131,18 @@ document.getElementById('statsNext').onclick = () => { if (statsOffset < 0) { st
  
 /* QUOTES MODAL */
 document.getElementById('openQuotes').onclick = openQuotesModal;
+function closeModal() {
+  document.getElementById('modalBack').classList.remove('show');
+  renderToday();
+  renderStats();
+}
+ 
+document.getElementById('manageHabitsBtn').onclick = openHabitsModal;
+document.getElementById('manageHabitsBtnHome').onclick = openHabitsModal;
 document.getElementById('modalBack').onclick = (e) => {
-  if (e.target.id === 'modalBack') document.getElementById('modalBack').classList.remove('show');
+  if (e.target.id === 'modalBack') closeModal();
 };
+document.getElementById('modalCloseArea').onclick = closeModal;
  
 /* DATA */
 document.getElementById('exportBtn').onclick = () => {
@@ -1543,7 +2167,12 @@ document.getElementById('importFile').onchange = (e) => {
       // accept both new format { app, data: {days, quotes} } and old { days, quotes }
       const payload = parsed && parsed.data && typeof parsed.data === 'object' ? parsed.data : parsed;
       if (payload && typeof payload === 'object') {
-        state = { days: payload.days || {}, quotes: payload.quotes || {} };
+        state = {
+          days: payload.days || {},
+          quotes: payload.quotes || {},
+          habits: Array.isArray(payload.habits) && payload.habits.length > 0 ? payload.habits : HABITS
+        };
+        HABITS = state.habits;
         saveState();
         renderToday(); renderWeek(); renderStats(); renderBackupUI();
         alert('Datos importados ✓');
@@ -1554,7 +2183,8 @@ document.getElementById('importFile').onchange = (e) => {
 };
 document.getElementById('resetBtn').onclick = () => {
   if (confirm('¿Borrar TODO el historial? Esta acción es irreversible.')) {
-    state = { days: {}, quotes: {} };
+    HABITS = JSON.parse(JSON.stringify(DEFAULT_HABITS));
+    state = { days: {}, quotes: {}, habits: HABITS };
     saveState();
     renderToday(); renderWeek(); renderStats();
   }
